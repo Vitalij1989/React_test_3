@@ -2,21 +2,36 @@ import { CocktailsList } from "../components/CocktailsList";
 import { getTrendingCocktails } from ".././api/cocktail-service";
 import { Section } from "../components/Section";
 import { Loader } from "../components/Loader";
+import { useEffect, useState } from "react";
 
 export const Home = () => {
   const [cocktails, setCocktails] = useState([]);
+  const [isLoading, setisLoading] = useState(true);
+
   useEffect(() => {
-    getTrendingCocktails().then((respons) => console.log(respons));
+    
+    setisLoading(true)
+    getTrendingCocktails()
+  
+      .then((respons) => {
+        const transormRes = respons.map((res) => res.drinks[0]);
+        setCocktails(transormRes);
+      })
+      .catch((error) => console.log(error))
+      .finally(setisLoading(false));
   }, []);
 
+console.log(isLoading)
   return (
     <>
       <Section>
+      
+       {isLoading && <Loader/>}
         <h1 className="text-center font-black text-gray-700 text-4xl mb-10">
           Trending cocktails
         </h1>
 
-        {/* <CocktailsList cocktails={cocktails} /> */}
+        <CocktailsList cocktails={cocktails} />
       </Section>
     </>
   );
