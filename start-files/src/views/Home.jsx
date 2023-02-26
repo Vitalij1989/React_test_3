@@ -6,27 +6,23 @@ import { useEffect, useState } from "react";
 
 export const Home = () => {
   const [cocktails, setCocktails] = useState([]);
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    
-    setisLoading(true)
+    setIsLoading(true);
     getTrendingCocktails()
-  
       .then((respons) => {
         const transormRes = respons.map((res) => res.drinks[0]);
         setCocktails(transormRes);
       })
       .catch((error) => console.log(error))
-      .finally(setisLoading(false));
+      .finally(setIsLoading(false));
   }, []);
 
-console.log(isLoading)
   return (
     <>
       <Section>
-      
-       {isLoading && <Loader/>}
+        {isLoading && <Loader />}
         <h1 className="text-center font-black text-gray-700 text-4xl mb-10">
           Trending cocktails
         </h1>

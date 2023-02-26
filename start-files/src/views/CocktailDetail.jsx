@@ -11,6 +11,7 @@ export const CocktailDetail = () => {
   const [cocktail, setCocktail] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { cocktailId } = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,7 +26,10 @@ export const CocktailDetail = () => {
   return (
     <>
       {isLoading && <Loader />}
-      {cocktail && <CocktailInfo {...cocktail} />}
+      <Section>
+        <GoBackBtn path={location?.state?.from ?? "/"} />
+        {cocktail && <CocktailInfo {...cocktail} />}
+      </Section>
     </>
   );
 };
